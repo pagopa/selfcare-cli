@@ -9,7 +9,7 @@ export type OnboardingImportProductDto = {
     contractSigned: string;
     productId: string;
     taxCode: string;
-    signed_date: string; // per 'activatedAt' convertito a 'signed_date'
+    activatedAt: string;
 };
 
 type GeographicTaxonomy = {

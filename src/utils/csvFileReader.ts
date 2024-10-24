@@ -11,26 +11,21 @@ export const importCsvFile = async () => {
 
     const csvFilePath = path.join(__dirname, 'data', '../../utils/contracts.csv');
 
-    const results: any[] = [];
+    const results: Array<any> = [];
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<Array<any>>((resolve, reject) => {
         fs.createReadStream(csvFilePath)
             .pipe(csvParser({
                 separator: ';'
             }))
-            // Analizza il CSV e convertilo in oggetti
             .on('data', (data) => {
-                console.log('data', data);
                 results.push(data)
             })
-            // Aggiunge ogni riga al risultato
             .on('end', () => {
-                console.log('Risultato', results);
-                // I dati del CSV come array di oggetti
-                resolve();
+                resolve(results);
             })
             .on('error', (error) => {
-                reject(error); // Gestione errori
+                reject(error);
             });
     });
 };
