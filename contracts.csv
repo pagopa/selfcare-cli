@@ -1,0 +1,2 @@
+﻿contract_id;document_name;provider_names;signed_date;contract_type;name;abi;tax_code;vat_code;vat_group;pec_mail;courtesy_mail;referente fattura_mail;sdd;sdi_code;membership_id;recipient_id,infocamere_pec,infocamere_name,status(infocamere_pec !=  pec_mail || infocamere_name != name) ? ERROR : OK
+pagopa-psp-54;CI017_A_Mooney Spa;SIGPITM1XXX,ABI32532,ITBBITM1;05/12/2019;A;Mooney S.p.A.;32532;06529501006;12564030968;VERO;mooney@pec.mooney.it;paolo.bonelli@mooney.it;;FALSO;A4707H7;pagopa-psp-54;pagopa-psp-54
