@@ -1,5 +1,5 @@
 {
-  "name": "selfcare-script-exe",
+  "name": "selfcare-cli",
   "version": "1.0.0",
   "description": "script for importing psp already contracted",
   "main": "index.ts",
