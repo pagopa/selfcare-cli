@@ -1,6 +1,6 @@
 import ObjectsToCsv from "objects-to-csv";
 import { parse } from "date-fns";
-import { OnboardingImportProductDto } from "../model";
+import { ContractOutput, OnboardingImportProductDto } from "../model";
 
 export const pspMapper = (psp: any): OnboardingImportProductDto => {
   return {
@@ -34,6 +34,35 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
     productId: psp.product_id,
     taxCode: psp.tax_code,
     activatedAt: parse(psp.signed_date, "dd/MM/yyyy", new Date()),
+  };
+};
+
+export const pspOutputMapper = (contract: any): ContractOutput => {
+  return {
+    contract_id: contract.name,
+    document_name: contract.document_name,
+    provider_names: contract.provider_names,
+    signed_date: contract.signed_date,
+    contract_type: contract.contract_type,
+    name: contract.name,
+    abi: contract.abi,
+    tax_code: contract.tax_code,
+    vat_code: contract.vat_code,
+    vat_group: contract.vat_group,
+    pec_mail: contract.pec_mail,
+    courtesy_mail: contract.courtesy_mail,
+    referente_fattura_mail: contract.referente_fattura_mail,
+    sdd: contract.sdd,
+    sdi_code: contract.sdi_code,
+    membership_id: contract.membership_id,
+    infocamere_pec: contract.infocamere_pec,
+    infocamere_name: contract.infocamere_name,
+    status: verifyStatus(
+      contract.pec_mail,
+      contract.mail,
+      contract.infocamere_pec,
+      contract.infocamere_name
+    ),
   };
 };
 

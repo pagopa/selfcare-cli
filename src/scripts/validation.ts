@@ -1,6 +1,6 @@
 import { ContractOutput } from "../model";
 import { importCsvFile } from "../utils/csvFileReader";
-import { csvFileReader, verifyStatus } from "../utils/utilsFunctions";
+import { csvFileReader, pspOutputMapper } from "../utils/utilsFunctions";
 
 export const Validation = async () => {
   const contracts = await importCsvFile();
@@ -15,34 +15,9 @@ export const Validation = async () => {
     const infocamere_name = "";
     const infocamere_pec = "";
 
-    const contractOutput: ContractOutput = {
-      contract_id: contract[index].name,
-      document_name: contract[index].document_name,
-      provider_names: contract[index].provider_names,
-      signed_date: contract[index].signed_date,
-      contract_type: contract[index].contract_type,
-      name: contract[index].name,
-      abi: contract[index].abi,
-      tax_code: tax_code,
-      vat_code: contract[index].vat_code,
-      vat_group: contract[index].vat_group,
-      pec_mail: contract[index].pec_mail,
-      courtesy_mail: contract[index].courtesy_mail,
-      referente_fattura_mail: contract[index].referente_fattura_mail,
-      sdd: contract[index].sdd,
-      sdi_code: contract[index].sdi_code,
-      membership_id: contract[index].membership_id,
-      infocamere_pec: infocamere_pec,
-      infocamere_name: infocamere_name,
-      status: verifyStatus(
-        contract[index].pec_mail,
-        contract[index].mail,
-        contract[index].infocamere_pec,
-        contract[index].infocamere_name
-      ),
-    };
+    // call api
 
-    results.push(contractOutput);
+    results.push(pspOutputMapper(contract));
   });
 
   if (results.length != 0) {
