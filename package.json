@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "import": "node --loader ts-node/esm index.ts"
+    "import": "node --loader ts-node/esm index.ts import",
+    "validation": "node --loader ts-node/esm index.ts validation"
   },
   "author": "",
   "license": "ISC",
