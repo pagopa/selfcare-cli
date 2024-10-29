@@ -14,6 +14,7 @@ program
 
 program.name("validation")
     .description("prova")
+    .option('-e, --env <environment>', 'specifica l\'ambiente', 'LOCAL_DEV')
     .action(Validation);
 
 const options = program.opts();
