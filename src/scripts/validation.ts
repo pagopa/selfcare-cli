@@ -1,86 +1,54 @@
 import { ContractOutput } from "../model";
 import { importCsvFile } from "../utils/csvFileReader";
-import { csvFileReader } from "../utils/csvFileWriter";
-import { genericFetch } from "../utils/genericFetch";
+import { csvFileReader, verifyStatus } from "../utils/utilsFunctions";
 
 export const Validation = async () => {
   const contracts = await importCsvFile();
-
   console.log(
-    "Sono stati letti " + contracts.length + " contratti dal file contracts_crm"
+    `Sono stati letti ${contracts.length} contratti dal file contracts_crm`
   );
 
   const results: Array<ContractOutput> = [];
 
-  for (let i = 0; i < contracts.length; i++) {
-
-    const tax_code = contracts[i].tax_code;
+  contracts.forEach((contract, index) => {
+    const tax_code = contract[index].tax_code;
     const infocamere_name = "";
     const infocamere_pec = "";
 
-    //aggiungere chiamata api
-
     const contractOutput: ContractOutput = {
-      contract_id: contracts[i].name,
-      document_name: contracts[i].document_name,
-      provider_names: contracts[i].provider_names,
-      signed_date: contracts[i].signed_date,
-      contract_type: contracts[i].contract_type,
-      name: contracts[i].name,
-      abi: contracts[i].abi,
+      contract_id: contract[index].name,
+      document_name: contract[index].document_name,
+      provider_names: contract[index].provider_names,
+      signed_date: contract[index].signed_date,
+      contract_type: contract[index].contract_type,
+      name: contract[index].name,
+      abi: contract[index].abi,
       tax_code: tax_code,
-      vat_code: contracts[i].vat_code,
-      vat_group: contracts[i].vat_group,
-      pec_mail: contracts[i].pec_mail,
-      courtesy_mail: contracts[i].courtesy_mail,
-      referente_fattura_mail: contracts[i].referente_fattura_mail,
-      sdd: contracts[i].sdd,
-      sdi_code: contracts[i].sdi_code,
-      membership_id: contracts[i].membership_id,
+      vat_code: contract[index].vat_code,
+      vat_group: contract[index].vat_group,
+      pec_mail: contract[index].pec_mail,
+      courtesy_mail: contract[index].courtesy_mail,
+      referente_fattura_mail: contract[index].referente_fattura_mail,
+      sdd: contract[index].sdd,
+      sdi_code: contract[index].sdi_code,
+      membership_id: contract[index].membership_id,
       infocamere_pec: infocamere_pec,
       infocamere_name: infocamere_name,
       status: verifyStatus(
-        contracts[i].pec_mail,
-        contracts[i].mail,
-        contracts[i].infocamere_pec,
-        contracts[i].infocamere_name
+        contract[index].pec_mail,
+        contract[index].mail,
+        contract[index].infocamere_pec,
+        contract[index].infocamere_name
       ),
     };
 
-    //console.log(contractOutput);
     results.push(contractOutput);
+  });
 
-  }
-
-  createFinalCSV(results);
-
-/* utils */
-function createFinalCSV(results: string | any[]){
-  
-  if(results.length != 0){
-    console.log(
-      "Sono stati processati " + results.length + " enti"
-    );
+  if (results.length != 0) {
+    console.log(`Sono stati processati ${results.length} enti`);
     csvFileReader(results);
   } else {
-    "Sono stati processati " + results.length + " enti"
+    console.log("Non ci sono contratti da validare");
   }
-
-}
-
-  function verifyStatus(
-    pec_mail: string,
-    name: string,
-    infocamere_pec: string,
-    infocamere_name: string
-  ) {
-    var status = "OK";
-
-    if (infocamere_pec != pec_mail || infocamere_name != name) {
-      status = "ERROR";
-    }
-
-    return status;
-  }
-
 };
