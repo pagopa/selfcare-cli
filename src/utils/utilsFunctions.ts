@@ -93,9 +93,7 @@ export const csvFileWriter = async (results: any) => {
 };
 
 export const verifyStatus = (pec_mail: string, infocamere_pec: string) => {
-  if (infocamere_pec.toLowerCase != pec_mail.toLowerCase) {
-    return "ERROR";
-  } else {
-    return "OK";
-  }
+  return infocamere_pec.toLowerCase() === pec_mail.toLowerCase()
+    ? "OK"
+    : "ERROR";
 };
