@@ -57,12 +57,7 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
     membership_id: contract.membership_id,
     infocamere_pec: contract.infocamere_pec,
     infocamere_name: contract.infocamere_name,
-    status: verifyStatus(
-      contract.pec_mail,
-      contract.mail,
-      contract.infocamere_pec,
-      contract.infocamere_name
-    ),
+    status: verifyStatus(contract.pec_mail, contract.infocamere_pec),
   };
 };
 
@@ -97,13 +92,8 @@ export const csvFileWriter = async (results: any) => {
   console.log("Scrittura eseguita correttamente.");
 };
 
-export const verifyStatus = (
-  pec_mail: string,
-  name: string,
-  infocamere_pec: string,
-  infocamere_name: string
-) => {
-  if (infocamere_pec != pec_mail || infocamere_name != name) {
+export const verifyStatus = (pec_mail: string, infocamere_pec: string) => {
+  if (infocamere_pec.toLowerCase != pec_mail.toLowerCase) {
     return "ERROR";
   } else {
     return "OK";
