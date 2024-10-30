@@ -91,7 +91,7 @@ export const genericFetch = async <T>(
   }
 };
 
-export const csvFileReader = async (results: any) => {
+export const csvFileWriter = async (results: any) => {
   const csv = new ObjectsToCsv(results);
   await csv.toDisk("./export/test.csv");
   console.log("Scrittura eseguita correttamente.");

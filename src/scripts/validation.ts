@@ -1,7 +1,7 @@
 import { ContractOutput } from "../model";
 import { pspVerifyService } from "../services/pspVerifyService";
 import { importCsvFile } from "../utils/csvFileReader";
-import { csvFileReader, pspOutputMapper } from "../utils/utilsFunctions";
+import { csvFileWriter, pspOutputMapper } from "../utils/utilsFunctions";
 
 export const Validation = async () => {
   const contracts = await importCsvFile();
@@ -11,18 +11,15 @@ export const Validation = async () => {
 
   const results: Array<ContractOutput> = [];
 
-  contracts.forEach((contract, index) => {
-    const tax_code = contract[index].tax_code;
-    var infocamere_name = "";
-    var infocamere_pec = "";
+  contracts.forEach((contract) => {
+    const tax_code = contract.tax_code;
 
     // call api
     pspVerifyService(tax_code)
-      .then((res) => {
+      .then((res: any) => {
         console.log("Response:", res);
-        //andare ad aggiungere il campo che scende dal servizio
-          infocamere_name = "";
-          infocamere_pec = "";
+        contract.infocamere_pec = res.digitalAddress;
+        contract.infocamere_name = res.businessName;
       })
       .catch((err) => {
         console.log("Error:", err);
@@ -33,7 +30,7 @@ export const Validation = async () => {
 
   if (results.length != 0) {
     console.log(`Sono stati processati ${results.length} enti`);
-    csvFileReader(results);
+    csvFileWriter(results);
   } else {
     console.log("Non ci sono contratti da validare");
   }
