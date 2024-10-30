@@ -22,12 +22,19 @@ export const Validation = async () => {
         } else {
           contract.infocamere_pec = res.digitalAddress;
         }
+        contract.zip_code = res.zipCode;
+        contract.county = res.county;
+        contract.city = res.city;
+        contract.registered_office = res.address;
         contract.infocamere_name = res.businessName;
+        contract.institution_type = "PSP";
+        contract.product_id = "prod-pagopa";
+        contract.business_register_number = tax_code;
 
         results.push(pspOutputMapper(contract));
       })
       .catch((err) => {
-        console.log("Error:", err);
+        console.log("Errore:", err);
         contract.infocamere_name = "ERRORE 404";
         contract.infocamere_pec = "ERRORE 404";
         results.push(pspOutputMapper(contract));

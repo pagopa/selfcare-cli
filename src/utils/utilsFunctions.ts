@@ -39,7 +39,7 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
 
 export const pspOutputMapper = (contract: any): ContractOutput => {
   return {
-    contract_id: contract.name,
+    contract_id: contract.contract_id,
     document_name: contract.document_name,
     provider_names: contract.provider_names,
     signed_date: contract.signed_date,
@@ -55,6 +55,13 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
     sdd: contract.sdd,
     sdi_code: contract.sdi_code,
     membership_id: contract.membership_id,
+    product_id: contract.product_id,
+    institution_type: contract.institution_type,
+    business_register_number: contract.business_register_number,
+    registered_office: contract.registered_office,
+    zip_code: contract.zip_code,
+    county:  contract.county,
+    city: contract.city,
     infocamere_pec: contract.infocamere_pec,
     infocamere_name: contract.infocamere_name,
     status: verifyStatus(contract.pec_mail, contract.infocamere_pec),
