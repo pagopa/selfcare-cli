@@ -44,6 +44,7 @@ type InstitutionLocationData = {
 
 export type ContractOutput = {
   contract_id: string;
+  product_id: string;
   document_name: string;
   provider_names: string;
   signed_date: string;
@@ -58,6 +59,12 @@ export type ContractOutput = {
   referente_fattura_mail: string;
   sdd: string;
   sdi_code: string;
+  registered_office: string;
+  institution_type: string;
+  business_register_number: string;
+  city: string;
+  county: string;
+  zip_code: string;
   membership_id: string;
   infocamere_pec: string;
   infocamere_name: string;
