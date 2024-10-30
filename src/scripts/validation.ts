@@ -17,21 +17,28 @@ export const Validation = async () => {
     // call api
     pspVerifyService(tax_code)
       .then((res: any) => {
-        console.log("Response:", res);
-        contract.infocamere_pec = res.digitalAddress;
+        if (res.digitalAddress === undefined) {
+          contract.infocamere_pec = "NON PRESENTE SU INFOCAMERE";
+        } else {
+          contract.infocamere_pec = res.digitalAddress;
+        }
         contract.infocamere_name = res.businessName;
+
+        results.push(pspOutputMapper(contract));
       })
       .catch((err) => {
         console.log("Error:", err);
+        contract.infocamere_name = "ERRORE 404";
+        contract.infocamere_pec = "ERRORE 404";
+        results.push(pspOutputMapper(contract));
+      })
+      .finally(() => {
+        if (results.length != 0) {
+          console.log(`Ente ${contract.tax_code} verificato`);
+          csvFileWriter(results);
+        } else {
+          console.log("Non ci sono contratti da validare");
+        }
       });
-
-    results.push(pspOutputMapper(contract));
   });
-
-  if (results.length != 0) {
-    console.log(`Sono stati processati ${results.length} enti`);
-    csvFileWriter(results);
-  } else {
-    console.log("Non ci sono contratti da validare");
-  }
 };
