@@ -64,6 +64,7 @@ export type ContractOutput = {
   business_register_number: string;
   city: string;
   county: string;
+  country: string;
   zip_code: string;
   membership_id: string;
   infocamere_pec: string;

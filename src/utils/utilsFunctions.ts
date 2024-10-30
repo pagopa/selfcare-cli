@@ -61,6 +61,7 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
     registered_office: contract.registered_office,
     zip_code: contract.zip_code,
     county:  contract.county,
+    country: contract.country,
     city: contract.city,
     infocamere_pec: contract.infocamere_pec,
     infocamere_name: contract.infocamere_name,

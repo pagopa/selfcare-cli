@@ -25,6 +25,7 @@ export const Validation = async () => {
         contract.zip_code = res.zipCode;
         contract.county = res.county;
         contract.city = res.city;
+        contract.country = "IT";
         contract.registered_office = res.address;
         contract.infocamere_name = res.businessName;
         contract.institution_type = "PSP";
@@ -37,6 +38,7 @@ export const Validation = async () => {
         console.log("Errore:", err);
         contract.infocamere_name = "ERRORE 404";
         contract.infocamere_pec = "ERRORE 404";
+        contract.country = "-";
         results.push(pspOutputMapper(contract));
       })
       .finally(() => {
