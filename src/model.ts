@@ -31,7 +31,7 @@ type DpoData = {
   address: string;
   pec: string;
   email: string;
-}
+};
 
 type PspData = {
   abiCode: string;

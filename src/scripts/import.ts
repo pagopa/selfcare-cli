@@ -5,30 +5,22 @@ import { importCsvFile } from "../utils/csvFileReader.js";
 import { pspMapper } from "../utils/utilsFunctions.js";
 import cliProgress from "cli-progress";
 
-export const Import = async (progressBar: cliProgress.SingleBar) => {
+export const Import = async () => {
     const url = API.IMPORT_PSP.URL;
     const pspList = await importCsvFile("../../../export/contract_crm_execution.csv");
     const newPspArray: Array<OnboardingImportProductDto> = [];
 
-    pspList.forEach((psp) => {
+    pspList.map((psp) => {
         newPspArray.push(pspMapper(psp));
     });
 
-    // Configura la barra di progresso con il numero totale di elementi
-    progressBar.start(newPspArray.length, 0);
-
-    // Utilizza `Promise.all` per eseguire tutte le promesse in parallelo e aggiornare la barra di progresso
-    await Promise.all(newPspArray.map(async (psp) => {
-        try {
-            const res = await pspImportService(url, psp);
-            console.log("Response:", res);
-            console.log('Onboarding compleated!');
-        } catch (err) {
-            console.log("Error:", err);
-        } finally {
-            progressBar.increment(); // Incrementa la barra di progresso dopo ogni richiesta
-        }
-    }));
-
-    progressBar.stop(); // Ferma la barra di progresso alla fine
+    newPspArray.forEach((psp) => {
+        pspImportService(url, psp)
+            .then(() => {
+                console.log(`onboarding psp con codice fiscale ${psp.taxCode} completato`);
+            })
+            .catch((err) => {
+                console.log(`Errore sul codice fiscale ${psp.taxCode}: ${err}`);
+            })
+    })
 };

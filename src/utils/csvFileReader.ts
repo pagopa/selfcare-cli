@@ -18,7 +18,7 @@ export const importCsvFile = async (customPath: string) => {
     skip_empty_lines: true,
     trim: true,
     bom: true,
-    relax_column_count: true
+    relax_column_count: true,
   });
 
   return new Promise<Array<any>>((resolve, reject) => {

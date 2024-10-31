@@ -21,8 +21,8 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
     pspData: {
       abiCode: psp.abi,
       businessRegisterNumber: psp.business_register_number,
-      legalRegisterNumber:"N/A",
-      legalRegisterName:"N/A",
+      legalRegisterNumber: "N/A",
+      legalRegisterName: "N/A",
       dpoData: {
         address: "N/A",
         pec: psp.infocamere_pec,
@@ -90,13 +90,24 @@ export const genericFetch = async <T>(
       },
     });
 
+    // Controlla se la risposta non è OK
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    // Log delle informazioni sulla risposta
     console.log("Response Status:", response.status);
     console.log("Response statusText:", response.statusText);
-    return response as T;
+
+    // Recupera il corpo della risposta come testo
+    const text = await response.text();
+
+    // Se il corpo non è vuoto, prova a fare il parsing come JSON
+    if (text) {
+      return JSON.parse(text) as T; // Parsing del corpo
+    } else {
+      throw new Error("Response body is empty.");
+    }
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
