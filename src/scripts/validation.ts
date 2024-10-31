@@ -49,16 +49,15 @@ export const Validation = async (progressBar: cliProgress.SingleBar) => {
       results.push(pspOutputMapper(contract));
     } finally {
       // Incrementa la barra di progresso dopo ogni richiesta
+      if (results.length != 0) {
+        console.log(`Ente ${contract.tax_code} verificato`);
+        csvFileWriter(results);
+      } else {
+        console.log("Non ci sono contratti da validare");
+      }
       progressBar.increment();
     }
   }));
-
-  // Scrive i risultati nel file CSV
-  if (results.length != 0) {
-    csvFileWriter(results);
-  } else {
-    console.log("Non ci sono contratti da validare");
-  }
 
   progressBar.stop(); // Ferma la barra di progresso alla fine
 };
