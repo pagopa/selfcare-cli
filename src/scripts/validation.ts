@@ -35,7 +35,7 @@ export const Validation = async () => {
         results.push(pspOutputMapper(contract));
       })
       .catch((err) => {
-        console.log("Errore:", err);
+        console.log(err);
         contract.infocamere_name = "ERRORE 404";
         contract.infocamere_pec = "ERRORE 404";
         contract.country = "-";
