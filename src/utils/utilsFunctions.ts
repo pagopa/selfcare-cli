@@ -1,6 +1,7 @@
 import ObjectsToCsv from "objects-to-csv";
 import { parse } from "date-fns";
 import { ContractOutput, OnboardingImportProductDto } from "../model";
+import fs from "fs";
 
 export const pspMapper = (psp: any): OnboardingImportProductDto => {
   return {
@@ -60,7 +61,7 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
     business_register_number: contract.business_register_number,
     registered_office: contract.registered_office,
     zip_code: contract.zip_code,
-    county:  contract.county,
+    county: contract.county,
     country: contract.country,
     city: contract.city,
     infocamere_pec: contract.infocamere_pec,
@@ -96,7 +97,11 @@ export const genericFetch = async <T>(
 
 export const csvFileWriter = async (results: any) => {
   const csv = new ObjectsToCsv(results);
-  await csv.toDisk("./export/test.csv");
+  const path = "./export";
+
+  prepareFolder(path);
+
+  await csv.toDisk(path + "/contract_crm_execution.csv");
   console.log("Scrittura eseguita correttamente.");
 };
 
@@ -104,4 +109,11 @@ export const verifyStatus = (pec_mail: string, infocamere_pec: string) => {
   return infocamere_pec.toLowerCase() === pec_mail.toLowerCase()
     ? "OK"
     : "ERROR";
+};
+
+export const prepareFolder = (path: string) => {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path);
+    console.log("ho creato la folder");
+  }
 };
