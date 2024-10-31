@@ -19,10 +19,17 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
     originId: psp.tax_code,
     pspData: {
       abiCode: psp.abi,
-      businessRegisterNumber: psp.businessRegisterNumber,
-      providerNames: psp.provider_names.split(","),
+      businessRegisterNumber: psp.business_register_number,
+      legalRegisterNumber:"N/A",
+      legalRegisterName:"N/A",
+      dpoData: {
+        address: "N/A",
+        pec: psp.infocamere_pec,
+        email: psp.infocamere_pec,
+      },
+      providerNames: [psp.provider_names],
       contractType: psp.contract_type,
-      contractId: psp.contractId,
+      contractId: psp.contract_id,
       vatNumberGroup: psp.vat_group,
     },
     institutionLocationData: {
@@ -30,7 +37,7 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
       country: psp.country,
       county: psp.county,
     },
-    contractSigned: psp.document_name,
+    contractSigned: `parties/docs/psp/${psp.document_name}/${psp.document_name}.pdf`,
     productId: psp.product_id,
     taxCode: psp.tax_code,
     activatedAt: parse(psp.signed_date, "dd/MM/yyyy", new Date()),
@@ -86,8 +93,9 @@ export const genericFetch = async <T>(
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data: T = await response.json();
-    return data;
+    console.log("Response Status:", response.status);
+    console.log("Response statusText:", response.statusText);
+    return response as T;
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;
@@ -96,7 +104,7 @@ export const genericFetch = async <T>(
 
 export const csvFileWriter = async (results: any) => {
   const csv = new ObjectsToCsv(results);
-  await csv.toDisk("./export/test.csv");
+  await csv.toDisk("./test.csv");
   console.log("Scrittura eseguita correttamente.");
 };
 

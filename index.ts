@@ -1,23 +1,37 @@
 import { Command } from "commander";
 import { Import } from "./src/scripts/import.js";
 import { Validation } from "./src/scripts/validation.js";
-import * as dotenv from 'dotenv';
+import cliProgress from "cli-progress";
 
-dotenv.config();
 const program = new Command();
+const progressBar = new cliProgress.SingleBar(
+    {
+        format: '\x1b[32mProgress | {bar} | {percentage}% | {value}/{total} Steps\x1b[0m', // Testo in verde
+        barCompleteChar: '\u2588', // Carattere per la barra completata
+        barIncompleteChar: '\u2591', // Carattere per la barra incompleta
+        hideCursor: true, // Nasconde il cursore durante l'uso
+        stopOnComplete: true, // Ferma la barra alla fine
+      },
+  cliProgress.Presets.shades_classic
+);
 
 program
-    .name("import")
-    .description("import psp")
-    .option('-e, --env <environment>', 'specifica l\'ambiente', 'LOCAL_DEV')
-    .action(Import);
+  .command("validation")
+  .description("validation psp")
+  .action(async () => {
+    progressBar.start(100, 0);
+    await Validation(progressBar);
+    progressBar.stop();
+  });
 
-program.name("validation")
-    .description("prova")
-    .option('-e, --env <environment>', 'specifica l\'ambiente', 'LOCAL_DEV')
-    .action(Validation);
-
-const options = program.opts();
-process.env.NODE_ENV = options.env;
+program
+  .command("validate-import")
+  .description("validation e poi import psp")
+  .action(async () => {
+    progressBar.start(100, 0);
+    await Validation(progressBar);
+    await Import(progressBar);
+    progressBar.stop();
+  });
 
 program.parse(process.argv);

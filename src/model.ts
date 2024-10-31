@@ -1,15 +1,15 @@
 export type OnboardingImportProductDto = {
-    billingData: BillingData;
-    institutionType: string;
-    geographicTaxonomies: GeographicTaxonomy[];
-    origin: string;
-    originId: string;
-    pspData: PspData;
-    institutionLocationData: InstitutionLocationData;
-    contractSigned: string;
-    productId: string;
-    taxCode: string;
-    activatedAt: Date;
+  billingData: BillingData;
+  institutionType: string;
+  geographicTaxonomies: GeographicTaxonomy[];
+  origin: string;
+  originId: string;
+  pspData: PspData;
+  institutionLocationData: InstitutionLocationData;
+  contractSigned: string;
+  productId: string;
+  taxCode: string;
+  activatedAt: Date;
 };
 
 type GeographicTaxonomy = {
@@ -27,9 +27,18 @@ type BillingData = {
   zipCode: string;
 };
 
+type DpoData = {
+  address: string;
+  pec: string;
+  email: string;
+}
+
 type PspData = {
   abiCode: string;
   businessRegisterNumber: string;
+  legalRegisterNumber: string;
+  legalRegisterName: string;
+  dpoData: DpoData;
   providerNames: string[];
   contractType: string;
   contractId: string;
