@@ -11,27 +11,36 @@ const progressBar = new cliProgress.SingleBar(
         barIncompleteChar: '\u2591', // Carattere per la barra incompleta
         hideCursor: true, // Nasconde il cursore durante l'uso
         stopOnComplete: true, // Ferma la barra alla fine
-      },
-  cliProgress.Presets.shades_classic
+    },
+    cliProgress.Presets.shades_classic
 );
 
 program
-  .command("validation")
-  .description("validation psp")
-  .action(async () => {
-    progressBar.start(100, 0);
-    await Validation(progressBar);
-    progressBar.stop();
-  });
+    .command("import")
+    .description("import psp")
+    .action(async () => {
+        progressBar.start(100, 0); // Avvia la barra con un valore iniziale di 0 e un totale di 100
+        await Import(progressBar); // Passa la barra al comando Import
+        progressBar.stop(); // Ferma la barra al termine
+    });
 
 program
-  .command("validate-import")
-  .description("validation e poi import psp")
-  .action(async () => {
-    progressBar.start(100, 0);
-    await Validation(progressBar);
-    await Import(progressBar);
-    progressBar.stop();
-  });
+    .command("validation")
+    .description("validation psp")
+    .action(async () => {
+        progressBar.start(100, 0);
+        await Validation(progressBar);
+        progressBar.stop();
+    });
+
+program
+    .command("validate-import")
+    .description("validation e poi import psp")
+    .action(async () => {
+        progressBar.start(100, 0);
+        await Validation(progressBar);
+        await Import(progressBar);
+        progressBar.stop();
+    });
 
 program.parse(process.argv);

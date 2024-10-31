@@ -7,7 +7,7 @@ import cliProgress from "cli-progress";
 
 export const Import = async (progressBar: cliProgress.SingleBar) => {
     const url = API.IMPORT_PSP.URL;
-    const pspList = await importCsvFile();
+    const pspList = await importCsvFile("../../../export/contract_crm_execution.csv");
     const newPspArray: Array<OnboardingImportProductDto> = [];
 
     pspList.forEach((psp) => {

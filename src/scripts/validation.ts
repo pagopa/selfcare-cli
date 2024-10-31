@@ -5,7 +5,8 @@ import { csvFileWriter, pspOutputMapper } from "../utils/utilsFunctions";
 import cliProgress from "cli-progress";
 
 export const Validation = async (progressBar: cliProgress.SingleBar) => {
-  const contracts = await importCsvFile();
+  const contracts = await importCsvFile("../../utils/contracts.csv");
+  
   console.log(
     `Sono stati letti ${contracts.length} contratti dal file contracts_crm`
   );
