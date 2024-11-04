@@ -1,5 +1,4 @@
 import { OnboardingImportProductDto } from "../model";
-import { API } from "../utils/constants";
 import { genericFetch } from "../utils/utilsFunctions";
 
 export const pspImportService = async (
