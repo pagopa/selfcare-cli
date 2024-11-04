@@ -65,7 +65,7 @@ export type ContractOutput = {
   vat_group: string;
   pec_mail: string;
   courtesy_mail: string;
-  referente_fattura_mail: string;
+  referente_fattura_mail: string[];
   sdd: string;
   sdi_code: string;
   registered_office: string;

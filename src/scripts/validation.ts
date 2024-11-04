@@ -62,7 +62,10 @@ export const Validation = async () => {
           }
 
           if (errors.length != 0) {
-            console.log("Enti in cui le chiamate vanno in eccezione", errors.map((err) => `${err.tax_code} ${err.name}`));
+            console.log(
+              "Enti in cui le chiamate vanno in eccezione",
+              errors.map((err) => `${err.tax_code} ${err.name}`)
+            );
           } else {
             console.log("Enti non in errore.");
           }
