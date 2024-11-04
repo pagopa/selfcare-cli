@@ -39,6 +39,6 @@ typings/
 lib/*.js
 test/*.js
 *.map
-.env
-.env.development
-.env.uat
+
+*.env
+.env.*
