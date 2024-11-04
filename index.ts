@@ -1,23 +1,25 @@
 import { Command } from "commander";
 import { Import } from "./src/scripts/import.js";
 import { Validation } from "./src/scripts/validation.js";
-import * as dotenv from 'dotenv';
 
-dotenv.config();
 const program = new Command();
 
 program
-    .name("import")
-    .description("import psp")
-    .option('-e, --env <environment>', 'specifica l\'ambiente', 'LOCAL_DEV')
-    .action(Import);
+  .command("import")
+  .description("import psp")
+  .action(() => Import());
 
-program.name("validation")
-    .description("prova")
-    .option('-e, --env <environment>', 'specifica l\'ambiente', 'LOCAL_DEV')
-    .action(Validation);
+program
+  .command("validation")
+  .description("validation psp")
+  .action(() => Validation());
 
-const options = program.opts();
-process.env.NODE_ENV = options.env;
+program
+  .command("validate-import")
+  .description("validation e poi import psp")
+  .action(() => {
+    Validation();
+    Import();
+  });
 
 program.parse(process.argv);
