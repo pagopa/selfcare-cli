@@ -20,10 +20,17 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
     originId: psp.tax_code,
     pspData: {
       abiCode: psp.abi,
-      businessRegisterNumber: psp.businessRegisterNumber,
-      providerNames: psp.provider_names.split(","),
+      businessRegisterNumber: psp.business_register_number,
+      legalRegisterNumber: "N/A",
+      legalRegisterName: "N/A",
+      dpoData: {
+        address: "N/A",
+        pec: psp.infocamere_pec,
+        email: psp.infocamere_pec,
+      },
+      providerNames: [psp.provider_names],
       contractType: psp.contract_type,
-      contractId: psp.contractId,
+      contractId: psp.contract_id,
       vatNumberGroup: psp.vat_group,
     },
     institutionLocationData: {
@@ -31,7 +38,7 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
       country: psp.country,
       county: psp.county,
     },
-    contractSigned: psp.document_name,
+    contractSigned: `parties/docs/psp/${psp.document_name}/${psp.document_name}.pdf`,
     productId: psp.product_id,
     taxCode: psp.tax_code,
     activatedAt: parse(psp.signed_date, "dd/MM/yyyy", new Date()),
@@ -73,7 +80,7 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
 export const genericFetch = async <T>(
   url: string,
   options?: RequestInit
-): Promise<T> => {
+): Promise<any> => {
   try {
     const response = await fetch(url, {
       ...options,
@@ -83,12 +90,24 @@ export const genericFetch = async <T>(
       },
     });
 
+    // Controlla se la risposta non è OK
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    const data: T = await response.json();
-    return data;
+    // Log delle informazioni sulla risposta
+    console.log("Response Status:", response.status);
+    console.log("Response statusText:", response.statusText);
+
+    // Recupera il corpo della risposta come testo
+    const text = await response.text();
+
+    // Se il corpo non è vuoto, prova a fare il parsing come JSON
+    if (text) {
+      return JSON.parse(text) as T; // Parsing del corpo
+    } else {
+      throw new Error("Response body is empty.");
+    }
   } catch (error) {
     console.error("Fetch error:", error);
     throw error;

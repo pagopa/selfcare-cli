@@ -1,15 +1,15 @@
 export type OnboardingImportProductDto = {
-    billingData: BillingData;
-    institutionType: string;
-    geographicTaxonomies: GeographicTaxonomy[];
-    origin: string;
-    originId: string;
-    pspData: PspData;
-    institutionLocationData: InstitutionLocationData;
-    contractSigned: string;
-    productId: string;
-    taxCode: string;
-    activatedAt: Date;
+  billingData: BillingData;
+  institutionType: string;
+  geographicTaxonomies: GeographicTaxonomy[];
+  origin: string;
+  originId: string;
+  pspData: PspData;
+  institutionLocationData: InstitutionLocationData;
+  contractSigned: string;
+  productId: string;
+  taxCode: string;
+  activatedAt: Date;
 };
 
 type GeographicTaxonomy = {
@@ -27,9 +27,18 @@ type BillingData = {
   zipCode: string;
 };
 
+type DpoData = {
+  address: string;
+  pec: string;
+  email: string;
+};
+
 type PspData = {
   abiCode: string;
   businessRegisterNumber: string;
+  legalRegisterNumber: string;
+  legalRegisterName: string;
+  dpoData: DpoData;
   providerNames: string[];
   contractType: string;
   contractId: string;
@@ -46,7 +55,7 @@ export type ContractOutput = {
   contract_id: string;
   product_id: string;
   document_name: string;
-  provider_names: string;
+  provider_names: string[];
   signed_date: string;
   contract_type: string;
   name: string;
@@ -56,7 +65,7 @@ export type ContractOutput = {
   vat_group: string;
   pec_mail: string;
   courtesy_mail: string;
-  referente_fattura_mail: string;
+  referente_fattura_mail: string[];
   sdd: string;
   sdi_code: string;
   registered_office: string;
