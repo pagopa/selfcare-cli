@@ -2,6 +2,7 @@ import { ContractOutput } from "../model";
 import { pspVerifyService } from "../services/pspVerifyService";
 import { importCsvFile } from "../utils/csvFileReader";
 import { csvFileWriter, pspOutputMapper } from "../utils/utilsFunctions";
+import cliProgress from "cli-progress";
 
 export const Validation = async () => {
   const contracts = await importCsvFile("../../utils/contracts.csv");
@@ -13,7 +14,21 @@ export const Validation = async () => {
   const results: Array<ContractOutput> = [];
   const errors: Array<ContractOutput> = [];
 
-  for (const contract of contracts) {
+  const progressBar = new cliProgress.SingleBar(
+    {
+      format: "Progress |{bar}| {percentage}% | {value}/{total} Contratti",
+      hideCursor: true,
+      clearOnComplete: true,
+      barCompleteChar: "\u2588",
+      barIncompleteChar: "\u2591",
+    },
+    cliProgress.Presets.shades_classic
+  );
+
+  progressBar.start(contracts_size, 0);
+  console.log("\n");
+
+  for (const [index, contract] of contracts.entries()) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     let tax_code = contract.tax_code;
@@ -39,7 +54,6 @@ export const Validation = async () => {
       contract.product_id = "prod-pagopa";
       contract.business_register_number = tax_code;
       esito = true;
-      
     } catch (err) {
       console.log(`Errore per il codice fiscale ${tax_code}: ${err}`);
       contract.infocamere_name = "ERRORE 404";
@@ -54,6 +68,10 @@ export const Validation = async () => {
         console.log("Non ci sono enti da validare");
       }
     }
+    console.log("\n");
+    progressBar.update(index + 1);
+    console.log("\n");
+
   }
 
   if (results.length != 0) {
@@ -70,4 +88,6 @@ export const Validation = async () => {
   } else {
     console.log("Enti non in errore.");
   }
+
+  progressBar.stop();
 };
