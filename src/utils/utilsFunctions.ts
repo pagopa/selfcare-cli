@@ -80,7 +80,7 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
 export const genericFetch = async <T>(
   url: string,
   options?: RequestInit
-): Promise<T> => {
+): Promise<any> => {
   try {
     const response = await fetch(url, {
       ...options,
