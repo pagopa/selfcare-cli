@@ -55,7 +55,7 @@ export type ContractOutput = {
   contract_id: string;
   product_id: string;
   document_name: string;
-  provider_names: string;
+  provider_names: string[];
   signed_date: string;
   contract_type: string;
   name: string;
