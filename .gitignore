@@ -1,3 +1,11 @@
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+**/.tfsec/*
+
+# macOS
+.DS_Store
+
 # Logs
 logs
 *.log
