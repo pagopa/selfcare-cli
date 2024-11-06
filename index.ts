@@ -14,12 +14,4 @@ program
   .description("validation psp")
   .action(() => Validation());
 
-program
-  .command("validate-import")
-  .description("validation e poi import psp")
-  .action(() => {
-    Validation();
-    Import();
-  });
-
 program.parse(process.argv);
