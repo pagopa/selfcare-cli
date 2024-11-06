@@ -8,17 +8,18 @@ export const Validation = async () => {
   const contracts = await importCsvFile("../../utils/contracts.csv");
   let contracts_size = contracts.length;
   console.log(
-    `Sono stati letti ${contracts_size} contratti dal file contracts_crm`
+    `Sono stati letti ${contracts_size} contratti dal file contracts_crm \n`
   );
 
   const results: Array<ContractOutput> = [];
   const errors: Array<ContractOutput> = [];
+  const exceptions: Array<String> = [];
 
-  const progressBar = new cliProgress.SingleBar(
+  let progressBar = new cliProgress.SingleBar(
     {
       format: "Progress |{bar}| {percentage}% | {value}/{total} Contratti",
       hideCursor: true,
-      clearOnComplete: true,
+      clearOnComplete: false,
       barCompleteChar: "\u2588",
       barIncompleteChar: "\u2591",
     },
@@ -26,7 +27,6 @@ export const Validation = async () => {
   );
 
   progressBar.start(contracts_size, 0);
-  console.log("\n");
 
   for (const [index, contract] of contracts.entries()) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -43,7 +43,6 @@ export const Validation = async () => {
       } else {
         contract.infocamere_pec = res.digitalAddress;
       }
-
       contract.zip_code = res.zipCode;
       contract.county = res.county;
       contract.city = res.city;
@@ -55,39 +54,49 @@ export const Validation = async () => {
       contract.business_register_number = tax_code;
       esito = true;
     } catch (err) {
-      console.log(`Errore per il codice fiscale ${tax_code}: ${err}`);
       contract.infocamere_name = "ERRORE 404";
       contract.infocamere_pec = "ERRORE 404";
       contract.country = "-";
+      exceptions.push(`${err}`);
       errors.push(pspOutputMapper(contract));
     } finally {
       if (esito) {
-        console.log(`Ente ${contract.tax_code} verificato`);
         results.push(pspOutputMapper(contract));
-      } else {
-        console.log("Non ci sono enti da validare");
       }
     }
-    console.log("\n");
     progressBar.update(index + 1);
-    console.log("\n");
-
   }
+
+  progressBar.stop();
 
   if (results.length != 0) {
     csvFileWriter(results);
+    console.log(
+      "Enti processati OK",
+      results.filter((res) => res.status === "OK").length
+    );
+    console.log(
+      "Enti processati KO - email-infocamere non congrue",
+      results.filter(
+        (res) => res.status === "ERROR" && res.pec_mail != res.infocamere_pec
+      ).length
+    );
+    console.log(
+      "Enti processati KO - di cui l'email non è presente su infocamere",
+      results.filter(
+        (res) =>
+          res.status === "ERROR" &&
+          res.infocamere_pec === "NON PRESENTE SU INFOCAMERE"
+      ).length
+    );
   } else {
     console.log("Non ci enti da validare");
   }
 
   if (errors.length != 0) {
+    console.log("Enti in cui le chiamate vanno in eccezione ", errors.length);
     console.log(
-      "Enti in cui le chiamate vanno in eccezione",
-      errors.map((err) => `${err.tax_code} ${err.name}`)
+      errors.map((err, i) => `${err.tax_code} - ${err.name}, ${exceptions[i]}`)
     );
-  } else {
-    console.log("Enti non in errore.");
   }
-
-  progressBar.stop();
 };

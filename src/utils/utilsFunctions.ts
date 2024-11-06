@@ -96,8 +96,8 @@ export const genericFetch = async <T>(
     }
 
     // Log delle informazioni sulla risposta
-    console.log("Response Status:", response.status);
-    console.log("Response statusText:", response.statusText);
+    // console.log("Response Status:", response.status);
+    // console.log("Response statusText:", response.statusText);
 
     // Recupera il corpo della risposta come testo
     const text = await response.text();
@@ -109,7 +109,7 @@ export const genericFetch = async <T>(
       throw new Error("Response body is empty.");
     }
   } catch (error) {
-    console.error("Fetch error:", error);
+    // console.error("Fetch error:", error);
     throw error;
   }
 };
@@ -133,6 +133,6 @@ export const verifyStatus = (pec_mail: string, infocamere_pec: string) => {
 export const prepareFolder = (path: string) => {
   if (!fs.existsSync(path)) {
     fs.mkdirSync(path);
-    console.log("ho creato la folder");
+    console.debug("ho creato la folder");
   }
 };
