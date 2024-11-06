@@ -20,7 +20,13 @@ It's a node.js project that use typescript and commander.js to run two different
 
 4. Install the dependecies: `bash/cmd npm install`
 
-5. Update the .env file with the foreign-key
+5. Update the .env file with the correct base_paths and subcription-key for every enviroment:
+
+**Create .env.development and .env.uat enviroment files**
+
+- .env.development ---> ENV=DEVELOPMENT BASE_PATH=https://example.base.path.it
+- .env.uat ---> ENV=UAT BASE_PATH=https://example.base.path.it
+- .env ---> ENV=PROD BASE_PATH=https://example.base.path.it
 
 
 ## Use
