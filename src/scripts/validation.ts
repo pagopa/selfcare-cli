@@ -58,11 +58,9 @@ export const Validation = async () => {
       contract.infocamere_pec = "ERRORE 404";
       contract.country = "-";
       exceptions.push(`${err}`);
-      //[...exceptions, `Errore per il codice fiscale ${tax_code}: ${err}`];
       errors.push(pspOutputMapper(contract));
     } finally {
       if (esito) {
-        //console.debug(`Ente ${contract.tax_code} verificato`);
         results.push(pspOutputMapper(contract));
       }
     }
