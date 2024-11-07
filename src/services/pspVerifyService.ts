@@ -5,9 +5,11 @@ import { genericFetch } from "../utils/utilsFunctions";
 
 export const pspVerifyService = async (tax_code: any) => {
   return await genericFetch(API.VERIFY_INFOCAMERE.getUrl(tax_code), {
+   
     headers: {
-      Authorization: `Bearer ${ENV.AUTH_TOKEN}`,
+      "Ocp-Apim-Subscription-Key": process.env.EXTERNAL_SUB_KEY,
     },
+    
     method: "GET",
   });
 };
