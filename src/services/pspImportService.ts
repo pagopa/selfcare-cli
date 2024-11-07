@@ -7,7 +7,7 @@ export const pspImportService = async (
 ) => {
   await genericFetch(url, {
     headers: {
-      "Ocp-Apim-Subscription-Key": process.env.EXTERNAL_DEV_SUB_KEY,
+      "Ocp-Apim-Subscription-Key": process.env.EXTERNAL_SUB_KEY,
     },
     body: JSON.stringify(pspBody),
     method: "POST",

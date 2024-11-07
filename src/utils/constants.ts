@@ -6,6 +6,6 @@ export const API = {
   },
   VERIFY_INFOCAMERE: {
     getUrl: (taxCode: string) =>
-      `${ENV.URL_API.PDND_INFOCAMERE}/infocamere-pdnd/institution/${taxCode}`,
+      `${ENV.URL_API.EXTERNAL}/infocamere-pdnd/institution/${taxCode}`,
   },
 };
