@@ -41,7 +41,7 @@ export const Validation = async () => {
       if (res.digitalAddress === undefined) {
         contract.infocamere_pec = "NON PRESENTE SU INFOCAMERE";
       } else {
-        contract.infocamere_pec = res.digitalAddress;
+        contract.infocamere_pec = res.digitalAddress.toLowerCase();
       }
       contract.zip_code = res.zipCode;
       contract.county = res.county;
