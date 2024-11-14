@@ -28,7 +28,7 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
         pec: psp.infocamere_pec,
         email: psp.infocamere_pec,
       },
-      providerNames: [psp.provider_names],
+      providerNames: psp.provider_names.includes(",") ? psp.provider_names.split(",") : [psp.provider_names],
       contractType: psp.contract_type,
       contractId: psp.contract_id,
       vatNumberGroup: psp.vat_group,
