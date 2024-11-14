@@ -13,7 +13,7 @@ export const importCsvFile = async (customPath: string) => {
   const results: Array<any> = [];
 
   const parser = parse({
-    delimiter: [";", "\t", ","],
+    delimiter: [";", "\t"],
     columns: true,
     skip_empty_lines: true,
     trim: true,
