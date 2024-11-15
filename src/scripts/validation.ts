@@ -52,6 +52,7 @@ export const Validation = async () => {
       contract.institution_type = "PSP";
       contract.product_id = "prod-pagopa";
       contract.business_register_number = tax_code;
+      contract.status = "OK";
       esito = true;
     } catch (err) {
       contract.infocamere_name = "ERRORE 404";
