@@ -76,12 +76,14 @@ export const Validation = async () => {
       "Enti processati OK",
       results.filter((res) => res.status === "OK").length
     );
+    /*
     console.log(
       "Enti processati KO - email-infocamere non congrue",
       results.filter(
         (res) => res.status === "ERROR" && res.pec_mail != res.infocamere_pec
       ).length
     );
+    
     console.log(
       "Enti processati KO - di cui l'email non è presente su infocamere",
       results.filter(
@@ -90,6 +92,7 @@ export const Validation = async () => {
           res.infocamere_pec === "NON PRESENTE SU INFOCAMERE"
       ).length
     );
+    */
   } else {
     console.log("Non ci enti da validare");
   }
