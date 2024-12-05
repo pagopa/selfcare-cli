@@ -16,7 +16,7 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
     },
     institutionType: psp.institution_type,
     geographicTaxonomies: [],
-    origin: psp.origin,
+    origin: "SELC",
     originId: psp.tax_code,
     pspData: {
       abiCode: psp.abi,
@@ -25,10 +25,10 @@ export const pspMapper = (psp: any): OnboardingImportProductDto => {
       legalRegisterName: "N/A",
       dpoData: {
         address: "N/A",
-        pec: psp.infocamere_pec,
-        email: psp.infocamere_pec,
+        pec: psp.pec_mail,
+        email: psp.pec_mail,
       },
-      providerNames: [psp.provider_names],
+      providerNames: psp.provider_names.includes(",") ? psp.provider_names.split(",") : [psp.provider_names],
       contractType: psp.contract_type,
       contractId: psp.contract_id,
       vatNumberGroup: psp.vat_group,
@@ -73,7 +73,7 @@ export const pspOutputMapper = (contract: any): ContractOutput => {
     city: contract.city,
     infocamere_pec: contract.infocamere_pec,
     infocamere_name: contract.infocamere_name,
-    status: verifyStatus(contract.pec_mail, contract.infocamere_pec),
+    status: contract.status,
   };
 };
 

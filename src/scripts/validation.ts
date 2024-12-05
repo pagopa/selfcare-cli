@@ -41,7 +41,7 @@ export const Validation = async () => {
       if (res.digitalAddress === undefined) {
         contract.infocamere_pec = "NON PRESENTE SU INFOCAMERE";
       } else {
-        contract.infocamere_pec = res.digitalAddress;
+        contract.infocamere_pec = res.digitalAddress.toLowerCase();
       }
       contract.zip_code = res.zipCode;
       contract.county = res.county;
@@ -52,6 +52,7 @@ export const Validation = async () => {
       contract.institution_type = "PSP";
       contract.product_id = "prod-pagopa";
       contract.business_register_number = tax_code;
+      contract.status = "OK";
       esito = true;
     } catch (err) {
       contract.infocamere_name = "ERRORE 404";
@@ -75,12 +76,14 @@ export const Validation = async () => {
       "Enti processati OK",
       results.filter((res) => res.status === "OK").length
     );
+    /*
     console.log(
       "Enti processati KO - email-infocamere non congrue",
       results.filter(
         (res) => res.status === "ERROR" && res.pec_mail != res.infocamere_pec
       ).length
     );
+    
     console.log(
       "Enti processati KO - di cui l'email non è presente su infocamere",
       results.filter(
@@ -89,6 +92,7 @@ export const Validation = async () => {
           res.infocamere_pec === "NON PRESENTE SU INFOCAMERE"
       ).length
     );
+    */
   } else {
     console.log("Non ci enti da validare");
   }

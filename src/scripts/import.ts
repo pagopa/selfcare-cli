@@ -40,7 +40,21 @@ export const Import = async () => {
       await pspImportService(url, psp);
       results.push(psp.taxCode);
     } catch (error) {
-      errors.push(`${psp.taxCode} - ${error}`);
+      let errorCode = error.message.replace(/[^0-9\.]+/g, "");
+      switch (errorCode) {
+        case "201": {
+          results.push(psp.taxCode);
+          break;
+        }
+        case "409": {
+          results.push(psp.taxCode);
+          break;
+        }
+        default: {
+          errors.push(`${psp.taxCode} - ${error}`);
+          break;
+        }
+      }
     }
 
     progressBar.update(index + 1);
