@@ -12,7 +12,8 @@
     "import-uat": "cross-env ENV=UAT node --loader ts-node/esm index.ts import",
     "validation-uat": "cross-env ENV=UAT node --loader ts-node/esm index.ts validation",
     "import": "cross-env ENV=PROD node --loader ts-node/esm index.ts import",
-    "validation": "cross-env ENV=PROD node --loader ts-node/esm index.ts validation"
+    "validation": "cross-env ENV=PROD node --loader ts-node/esm index.ts validation",
+    "bonifica-dev": "cross-env ENV=DEVELOPMENT node --loader ts-node/esm index.ts updateContractSign"
   },
   "author": "",
   "license": "ISC",
